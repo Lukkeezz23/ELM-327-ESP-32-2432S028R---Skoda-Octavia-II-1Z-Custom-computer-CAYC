@@ -1,4 +1,5 @@
 # Luke – Octavia II Display
+<img width="4096" height="3072" alt="IMG_20261011_173142145" src="https://github.com/user-attachments/assets/e80cebf7-ee6f-4dba-9e93-653b0cf6c273" />
 
 Multifunkční dotykový displej pro **Škoda Octavia II / 1Z**, postavený na ESP32 s barevným TFT displejem.
 
@@ -135,7 +136,6 @@ OBD-II
    ▼
 ELM327 Bluetooth
    │
-   ▼
 ESP32
    │
    ▼
@@ -143,105 +143,6 @@ TFT displej
 ESP32 se pokouší automaticky připojit k nastavenému Bluetooth OBD adaptéru.
 Uživatelské rozhraní
 Menu je navrženo jako dotykové rozhraní optimalizované pro použití v automobilu.
-Obsahuje několik stránek s dlaždicemi, například:
-PŘEHLED
-MOTOR
-TURBO
-DPF PRO
-KNIHA JÍZD
-HISTORIE TANKOVÁNÍ
-DIAGNOSTIKA
-SERVIS
-ALARMY
-NASTAVENÍ
-UI používá tmavý automobilový styl s barevně odlišenými sekcemi.
-Ukládání dat
-Projekt používá:
-LittleFS
-Pro ukládání lokálních souborů.
-Typické soubory:
-/trips.csv
-/fueling.csv
-/dpf.csv
-Obsahují historii jízd, tankování a regenerací DPF.
-Struktura projektu
-Příklad:
-Luke_Octavia_II/
-│
-├── Luke_Octavia_II.ino
-├── *.h
-├── icons/
-├── assets/
-└── README.md
-Některé grafické prvky mohou být uloženy přímo v .h souborech ve formě bitmap nebo datových polí.
-Požadavky
-Pro kompilaci je potřeba:
-Arduino IDE
-ESP32 Board Support
-TFT_eSPI
-LittleFS
-Bluetooth / BLE knihovny používané ESP32
-další knihovny podle aktuální verze sketche
-Doporučená platforma:
-Arduino ESP32 Core 3.x
-Instalace
-Nainstaluj Arduino IDE.
-Přidej podporu ESP32.
-Nainstaluj potřebné knihovny.
-Nastav TFT_eSPI podle použitého displeje.
-Otevři hlavní .ino soubor.
-Připoj ESP32 přes USB.
-Vyber správnou desku a COM port.
-Zkompiluj projekt.
-Nahraj firmware do ESP32.
-Restartuj zařízení.
-Podrobný instalační návod je dostupný samostatně v dokumentaci projektu.
-Webové rozhraní
-Po aktivaci Wi-Fi lze rozhraní otevřít z telefonu nebo počítače.
-Webová část slouží například pro:
-konfiguraci
-změnu textů
-synchronizaci času
-export dat
-správu uživatelských hodnot
-Bezpečnost
-Projekt je určen především pro zobrazování a vyhodnocování dat.
-Diagnostické funkce by měly být používány opatrně.
-Nepoužívej zařízení způsobem, který by mohl:
-odvádět pozornost při řízení
-ovlivnit bezpečnost vozidla
-měnit kritické parametry řídicích jednotek bez znalosti jejich významu
-Autor projektu nenese odpovědnost za škody vzniklé nesprávným použitím.
-Kompatibilita
-Primární cílové vozidlo:
-Škoda Octavia II / 1Z
-Projekt vzniká a je testován především pro tuto platformu.
-Funkčnost na jiných vozidlech není zaručena.
-Stav projektu
-Projekt je aktivně vyvíjen.
-Mohou se měnit:
-funkce
-menu
-diagnostické hodnoty
-grafika
-webové rozhraní
-způsob ukládání dat
-Plánované funkce
-Do budoucna lze projekt rozšířit například o:
-více VAG diagnostických hodnot
-pokročilejší DPF statistiky
-grafy jízd
-statistiky tankování
-dlouhodobou spotřebu
-automatické servisní záznamy
-další obrazovky
-export statistik
-pokročilejší webové rozhraní
-Upozornění
-Tento projekt není oficiálním produktem společnosti Škoda Auto a není společností Škoda Auto podporován ani schválen.
-Názvy značek a ochranné známky patří jejich příslušným vlastníkům.
-Licence
-Projekt je distribuován pod licencí uvedenou v souboru:
-LICENSE
-Autor
-Luke – Octavia II Display Project
+Obsahuje několik stránek s dlaždicemi.
+<img width="1159" height="869" alt="IMG_20261011_173154748" src="https://github.com/user-attachments/assets/f193771d-3c9c-4268-aa43-250a1397ea06" />
+<img width="1159" height="869" alt="IMG_20261011_173217360" src="https://github.com/user-attachments/assets/454e7470-4c50-44de-a4e9-88c12b1cd291" />
