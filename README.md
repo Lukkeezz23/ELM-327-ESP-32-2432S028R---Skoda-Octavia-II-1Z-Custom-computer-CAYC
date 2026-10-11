@@ -143,7 +143,7 @@ TFT displej
 ESP32 se pokouší automaticky připojit k nastavenému Bluetooth OBD adaptéru.
 Uživatelské rozhraní
 Menu je navrženo jako dotykové rozhraní optimalizované pro použití v automobilu.
-Obsahuje několik stránek s dlaždicemi.
+Obsahuje několik stránek s dlaždicemi.```
 
 <img width="1159" height="869" alt="IMG_20261011_173154748" src="https://github.com/user-attachments/assets/f193771d-3c9c-4268-aa43-250a1397ea06" />
 <img width="1159" height="869" alt="IMG_20261011_173217360" src="https://github.com/user-attachments/assets/454e7470-4c50-44de-a4e9-88c12b1cd291" />
