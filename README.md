@@ -105,6 +105,8 @@ Přes telefon nebo počítač lze:
 - pracovat s historií tankování
 
 ---
+<img width="1159" height="869" alt="IMG_20261011_173154748" src="https://github.com/user-attachments/assets/f193771d-3c9c-4268-aa43-250a1397ea06" />
+<img width="1159" height="869" alt="IMG_20261011_173217360" src="https://github.com/user-attachments/assets/454e7470-4c50-44de-a4e9-88c12b1cd291" />
 
 ## Hardware
 
@@ -120,9 +122,6 @@ Projekt je určen především pro:
 Displej je používán v orientaci:
 
 **320 × 240 px – landscape**
-
-<img width="1159" height="869" alt="IMG_20261011_173154748" src="https://github.com/user-attachments/assets/f193771d-3c9c-4268-aa43-250a1397ea06" />
-<img width="1159" height="869" alt="IMG_20261011_173217360" src="https://github.com/user-attachments/assets/454e7470-4c50-44de-a4e9-88c12b1cd291" />
 
 
 ## Připojení k vozidlu
