@@ -7,6 +7,7 @@
 Komunikuje přes **Bluetooth Classic ELM327**, zobrazuje dostupná data motoru, vede knihu jízd a historii tankování a nabízí servisní Wi‑Fi web.
 
 **Aktuální veřejná verze:** `V16.31 MULTI-ECU`
+
 Veškeré podrobně popsané funkce zde: [Funkce.md](Funkce.md).
 
 <table>
