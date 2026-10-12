@@ -8,7 +8,6 @@ Aktuální firmware v tomto repozitáři: **V16.30.1 FIX1**.
 
 > Projekt je primárně vyvíjen a laděn pro **Škoda Octavia II facelift, 1.6 TDI CAYC / PCR2.1**. Základní OBD funkce mohou fungovat i na jiných vozech koncernu VAG, ale zejména DPF data jsou závislá na konkrétní ECU a nejsou univerzální.
 
-![Startup logo](StartupLogo_preview.png)
 
 ---
 
