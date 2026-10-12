@@ -1,3 +1,5 @@
+<img width="1338" height="753" alt="banner" src="https://github.com/user-attachments/assets/7bb92b89-46a7-417f-ab2e-607a0d38f3b9" />
+
 # Octavia II PC
 
 **Octavia II PC** je neoficiální komunitní palubní počítač a diagnostický displej pro **Škoda Octavia II (1Z)** postavený na **ESP32-2432S028R / CYD 2.8" 320×240**.
