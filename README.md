@@ -216,17 +216,100 @@ Pokud máte jinou Octavii II a chcete rozšířený DPF profil doplnit, nejcenn�
 
 ---
 
-## Servisní Wi‑Fi
+<section id="servisni-web">
 
-```text
+  <h2>Servisní WEB</h2>
+
+  <p>
+    <strong>Octavia II PC</strong> obsahuje vlastní servisní webové rozhraní,
+    které běží přímo na ESP32.
+    Není potřeba žádná aplikace ani připojení k internetu –
+    stačí telefon, tablet nebo notebook s Wi-Fi.
+  </p>
+
+  <p>
+    Servisní WEB slouží hlavně pro pohodlnější nastavení zařízení,
+    prohlížení uložených dat a jejich export.
+  </p>
+
+  <h3>Připojení</h3>
+
+  <p>Na displeji otevřete:</p>
+
+  <pre>SYSTEM → WI-FI / WEB</pre>
+
+  <p>a spusťte servisní WEB.</p>
+
+  <p>ESP32 vytvoří vlastní Wi-Fi síť:</p>
+
+  <pre>
 SSID:  Octavia-II-PC
 Heslo: OctaviaPC
 Web:   http://192.168.4.1
-```
+  </pre>
 
-Servisní Wi‑Fi je oddělena od běžné Bluetooth OBD komunikace, aby ESP32 a rádio nebyly zbytečně zatěžovány současně.
+  <p>
+    Po připojení telefonu, tabletu nebo počítače k této síti otevřete v prohlížeči:
+  </p>
 
----
+  <pre>http://192.168.4.1</pre>
+
+  <p><strong>Připojení k internetu není potřeba.</strong></p>
+
+  <blockquote>
+    Wi-Fi a Bluetooth OBD komunikace jsou záměrně oddělené.
+    Při spuštěném servisním WEBu se Bluetooth komunikace s ELM327 dočasně zastaví,
+    aby ESP32 nebylo zbytečně zatěžováno dvěma rádiovými režimy současně.
+    Po ukončení WEBu firmware obnoví Bluetooth a pokusí se znovu připojit
+    k uloženému ELM327.
+  </blockquote>
+
+  <h3>Co WEB obsahuje</h3>
+
+  <ul>
+    <li>uloženou <strong>knihu jízd</strong>,</li>
+    <li><strong>historii tankování</strong>,</li>
+    <li>export uložených dat do <strong>CSV / PDF</strong>,</li>
+    <li>nastavení <strong>kapacity palivové nádrže</strong>,</li>
+    <li>nastavení počátečního <strong>stavu tachometru</strong>,</li>
+    <li>nastavení parametrů souvisejících s DPF a tankováním,</li>
+    <li>zobrazení detekovaného <strong>profilu motoru / ECU</strong>,</li>
+    <li>ruční výběr profilu vozidla místo režimu AUTO,</li>
+    <li>změnu <strong>úvodního textu a názvu vozidla</strong>,</li>
+    <li>volitelné kontaktní údaje vlastníka nebo správce,</li>
+    <li>synchronizaci data a času,</li>
+    <li>informace o stavu systému a firmware,</li>
+    <li>bezpečné ukončení WEBu a návrat do režimu JÍZDA.</li>
+  </ul>
+
+  <p>
+    WEB není určen jako druhý živý OBD dashboard.
+    Živá data motoru jsou primárně zobrazována přímo na displeji
+    <strong>Octavia II PC</strong>.
+  </p>
+
+  <p>
+    Servisní WEB je určen především pro
+    <strong>historii, konfiguraci, export dat a servisní úkony</strong>.
+  </p>
+
+<h2>Ukázky WEB rozhraní</h2>
+
+<table>
+<tr>
+<td width="50%" align="center">
+<img src="https://github.com/user-attachments/assets/062e5076-499f-49c4-8fb4-a5b08d208b17" alt="Octavia II PC - hlavní stránka WEBu" width="50%">
+
+<br>
+<b>PŘEHLED</b>
+</td>
+<td width="50%" align="center">
+<img src="https://github.com/user-attachments/assets/e35cf87f-526a-4502-bee2-7ff5e81477aa" alt="Octavia II PC - kniha jízd" width="50%">
+<br>
+<b>jízdy</b>
+</td>
+</tr>
+</table>
 
 ## Personalizace PUBLIC verze
 
