@@ -1,4 +1,4 @@
-<img width="1338" height="753" alt="banner" src="https://github.com/user-attachments/assets/7bb92b89-46a7-417f-ab2e-607a0d38f3b9" />
+<img width="1338" height="753" alt="Octavia II PC banner" src="https://github.com/user-attachments/assets/7bb92b89-46a7-417f-ab2e-607a0d38f3b9" />
 
 # Octavia II PC
 
@@ -9,8 +9,6 @@ Komunikuje přes **Bluetooth Classic ELM327**, zobrazuje dostupná data motoru, 
 **Aktuální veřejná verze:** `V16.31 MULTI-ECU`
 
 > Nově firmware není pevně svázán pouze s 1.6 TDI CAYC. Umí automatický výběr OBD protokolu a používá profily ECU. Pokud konkrétní proprietární hodnotu nezná, raději zobrazí `-- / N/A`, než aby ji odhadoval.
-
-![Octavia II PC – Přehled](00_overview.png)
 
 ---
 
@@ -48,7 +46,34 @@ Firmware je především **doplňkový informační displej**. Běžná diagnost
 
 ---
 
-## Ukázky
+## Ukázky z reálného displeje
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="assets/screen_prehled.png" alt="Přehled" width="100%"><br>
+      <b>Přehled</b>
+    </td>
+    <td width="50%" align="center">
+      <img src="assets/screen_senzory.png" alt="Senzory" width="100%"><br>
+      <b>Senzory</b>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="assets/screen_dpf.png" alt="DPF PRO" width="100%"><br>
+      <b>DPF PRO</b>
+    </td>
+    <td width="50%" align="center">
+      <img src="assets/screen_kniha_jizd.png" alt="Kniha jízd" width="100%"><br>
+      <b>Kniha jízd</b>
+    </td>
+  </tr>
+</table>
+
+> Fotografie jsou z reálného provozu na ESP32-2432S028R / CYD.
+
+### Další obrazovky firmware
 
 | Přehled | Motor | Turbo |
 |---|---|---|
