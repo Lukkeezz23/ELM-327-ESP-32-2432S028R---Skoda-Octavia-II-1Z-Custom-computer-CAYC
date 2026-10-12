@@ -7,8 +7,18 @@
 Komunikuje přes **Bluetooth Classic ELM327**, zobrazuje dostupná data motoru, vede knihu jízd a historii tankování a nabízí servisní Wi‑Fi web.
 
 **Aktuální veřejná verze:** `V16.31 MULTI-ECU`
-
-<img width="564" height="346" alt="IMG_20261012_063119432" src="https://github.com/user-attachments/assets/d2083e55-d905-4ff0-bce4-66ff6f76e17a" />
+<table>
+  <tr>
+    <td valign="middle">
+      <img width="564" height="346" alt="IMG_20261012_063119432"
+           src="https://github.com/user-attachments/assets/d2083e55-d905-4ff0-bce4-66ff6f76e17a" />
+    </td>
+    <td valign="middle">
+      <img width="168" height="128" alt="elm"
+           src="https://github.com/user-attachments/assets/d49c20e8-2f0d-43ae-83b0-4bcb31642986" />
+    </td>
+  </tr>
+</table>
 
 
 > Nově firmware není pevně svázán pouze s 1.6 TDI CAYC. Umí automatický výběr OBD protokolu a používá profily ECU. Pokud konkrétní proprietární hodnotu nezná, raději zobrazí `-- / N/A`, než aby ji odhadoval.
