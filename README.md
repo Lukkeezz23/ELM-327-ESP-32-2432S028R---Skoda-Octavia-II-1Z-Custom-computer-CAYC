@@ -1,5 +1,4 @@
 # Luke – Octavia II Display
-<img width="4096" height="3072" alt="IMG_20261011_173142145" src="https://github.com/user-attachments/assets/e80cebf7-ee6f-4dba-9e93-653b0cf6c273" />
 
 Multifunkční dotykový displej pro **Škoda Octavia II / 1Z**, postavený na ESP32 s barevným TFT displejem.
 
@@ -105,8 +104,6 @@ Přes telefon nebo počítač lze:
 - pracovat s historií tankování
 
 ---
-<img width="1159" height="869" alt="IMG_20261011_173154748" src="https://github.com/user-attachments/assets/f193771d-3c9c-4268-aa43-250a1397ea06" />
-<img width="1159" height="869" alt="IMG_20261011_173217360" src="https://github.com/user-attachments/assets/454e7470-4c50-44de-a4e9-88c12b1cd291" />
 
 ## Hardware
 
