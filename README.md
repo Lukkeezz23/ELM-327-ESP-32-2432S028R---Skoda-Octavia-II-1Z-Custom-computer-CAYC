@@ -1,4 +1,5 @@
 # Luke – Octavia II Display
+<img width="4096" height="3072" alt="1000032043" src="https://github.com/user-attachments/assets/faaf9f11-bd19-4fb5-97bf-741e29a7bfcd" />
 
 Palubní dotykový displej pro **Škoda Octavia II (1Z) CAYC** postavený na **ESP32-2432S028R / CYD 2.8\" 320×240**. Projekt komunikuje přes **Bluetooth Classic** s adaptérem **ELM327**, čte motorová a DPF data, vede knihu jízd, sleduje tankování, zobrazuje alarmy a nabízí lehké servisní webové rozhraní.
 
@@ -33,6 +34,7 @@ Aktuální firmware v tomto repozitáři: **V16.30.1 FIX1**.
 19. [Struktura projektu](#struktura-projektu)
 
 ---
+<img width="4096" height="3072" alt="1000032044" src="https://github.com/user-attachments/assets/bc4f2b02-3e98-4ab7-a503-aa6712ca91a3" />
 
 # Co projekt umí
 
