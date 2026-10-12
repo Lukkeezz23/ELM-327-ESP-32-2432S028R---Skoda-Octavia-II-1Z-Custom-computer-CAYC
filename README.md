@@ -1,14 +1,30 @@
 # Octavia II PC
 
-**Octavia II PC** je neoficiální komunitní palubní počítač a diagnostický displej pro **Škoda Octavia II (1Z)** postavený na **ESP32-2432S028R / CYD 2.8\" 320×240**.
+**Octavia II PC** je neoficiální komunitní palubní počítač a diagnostický displej pro **Škoda Octavia II (1Z)** postavený na **ESP32-2432S028R / CYD 2.8" 320×240**.
 
-Komunikuje s vozidlem přes **Bluetooth Classic ELM327**, zobrazuje vybraná motorová a DPF data, ukládá jízdní statistiky a nabízí vlastní servisní Wi‑Fi web.
+Komunikuje přes **Bluetooth Classic ELM327**, zobrazuje dostupná data motoru, vede knihu jízd a historii tankování a nabízí servisní Wi‑Fi web.
 
-**Aktuální veřejná verze:** `V16.30.2 PUBLIC`
+**Aktuální veřejná verze:** `V16.31 MULTI-ECU`
 
-> Projekt je primárně vyvíjen a testován pro **Škoda Octavia II facelift 1.6 TDI CAYC / PCR2.1**. Základní OBD funkce mohou fungovat i jinde, ale DPF/UDS část není univerzální pro všechny motory a řídicí jednotky.
+> Nově firmware není pevně svázán pouze s 1.6 TDI CAYC. Umí automatický výběr OBD protokolu a používá profily ECU. Pokud konkrétní proprietární hodnotu nezná, raději zobrazí `-- / N/A`, než aby ji odhadoval.
 
 ![Octavia II PC – Přehled](00_overview.png)
+
+---
+
+## Kompatibilita motorů
+
+| Profil | Stav | Co očekávat |
+|---|---|---|
+| **AUTO** | doporučeno | Firmware zkusí VAG CAN a při neúspěchu automatický OBD protokol. Poté zvolí nejbezpečnější profil. |
+| **1.6 TDI CAYC / PCR2.1** | nejlépe ověřeno | Standardní OBD + UDS. Rozšířené DPF hodnoty jsou povoleny jen pro ověřené mapování ECU. |
+| **2.0 TDI CR / EDC17** | základní podpora | Standardní OBD, identifikace UDS a na podporovaných CAN autech read-only scan jednotek. Proprietární DPF saze zatím nejsou vydávány za ověřené. |
+| **1.9 / 2.0 TDI PD / EDC16** | základní podpora | Generic OBD přes protokol vybraný ELM327. Funkce závisí na tom, které standardní PIDy konkrétní ECU poskytuje. |
+| **Generic OBD-II** | bezpečný fallback | RPM, rychlost, teploty a další standardní PIDy podle podpory vozidla. |
+
+**Důležité:** Octavia II se vyráběla s více motory, ECU a diagnostickými protokoly. Stejný údaj DPF proto nemusí mít na všech jednotkách stejnou adresu ani formát. V16.31 záměrně nepoužívá neověřené raw DPF DIDy na jiné ECU.
+
+Podrobnosti jsou v [MULTI_ECU_SUPPORT.md](MULTI_ECU_SUPPORT.md).
 
 ---
 
@@ -16,22 +32,21 @@ Komunikuje s vozidlem přes **Bluetooth Classic ELM327**, zobrazuje vybraná mot
 
 Stručně:
 
-- hlavní palubní přehled s RPM, teplotami, turbem, palivem a dojezdem,
-- DPF monitor včetně sledování regenerace,
-- motorová, turbo, elektrická a senzorová data,
-- kniha jízd a historie tankování,
-- základní diagnostické informace a čtení DTC,
-- servisní intervaly a nastavitelné alarmy,
-- Bluetooth skener a automatické připojení k uloženému ELM327,
-- servisní Wi‑Fi web pro nastavení a historii,
-- nastavení jasu, textů, vozidla a dalších parametrů,
-- správa napájení a příprava pro ignition sense.
+- palubní přehled s RPM, teplotou motoru, turbem a dalšími dostupnými hodnotami,
+- automatickou detekci OBD protokolu a profil motoru/ECU,
+- DPF PRO na ověřených ECU a standardní DPF tlak, pokud jej ECU poskytuje,
+- motorová, senzorová a elektrická data,
+- knihu jízd a historii tankování,
+- čtení diagnostických závad,
+- servisní intervaly, alarmy a správu napájení,
+- Bluetooth skener pro ELM327,
+- servisní Wi‑Fi web pro historii, nastavení a exporty.
 
-Firmware je navržen především jako **doplňkový informační displej**. Diagnostická část je zaměřena na čtení dat, nikoli na kódování řídicích jednotek.
+Firmware je především **doplňkový informační displej**. Běžná diagnostika a identifikace ECU jsou read-only. Funkce **SPECIALS** obsahuje aktivní výstupní test a je proto v MULTI-ECU verzi povolen pouze pro ověřený profil.
 
 ---
 
-## Ukázky obrazovek
+## Ukázky
 
 | Přehled | Motor | Turbo |
 |---|---|---|
@@ -41,46 +56,88 @@ Firmware je navržen především jako **doplňkový informační displej**. Dia
 |---|---|---|
 | ![](03_kniha_jizd.png) | ![](04_tankovani.png) | ![](05_diagnostika.png) |
 
-Další náhledy jsou přímo v repozitáři.
-
 ---
 
-# Hardware
+## Hardware
 
-## Potřebujete
+Potřebujete:
 
-- **ESP32-2432S028R / CYD 2.8\" 320×240**,
+- **ESP32-2432S028R / CYD 2.8" 320×240**,
 - datový USB kabel,
-- počítač s Arduino IDE,
-- **Bluetooth Classic ELM327**,
-- vozidlo s podporovanou OBD komunikací.
+- Arduino IDE 2.x,
+- **Bluetooth Classic / SPP ELM327**,
+- vozidlo s OBD komunikací.
 
-### ELM327
-
-Doporučen je adaptér používající **Bluetooth Classic / SPP**.
-
-Wi‑Fi ELM327 ani BLE-only adaptéry nejsou určeny pro aktuální způsob komunikace tohoto firmware.
-
-Levné ELM327 klony se mohou výrazně lišit kvalitou a podporovanými příkazy.
+Wi‑Fi ELM327 ani BLE-only adaptéry nejsou určeny pro aktuální způsob komunikace firmware.
 
 ---
 
-# Veřejná verze a personalizace
+## Instalace
 
-Tato PUBLIC verze **neobsahuje osobní MAC adresu ELM327, jméno původního uživatele ani jeho kontaktní údaje**.
+### 1. ESP32 core
 
-Po prvním spuštění je proto potřeba nastavit vlastní instalaci.
+V Arduino IDE přidejte do **Additional Boards Manager URLs**:
 
-### Uživatel musí nastavit
+```text
+https://espressif.github.io/arduino-esp32/package_esp32_index.json
+```
 
-1. vlastní Bluetooth Classic ELM327,
-2. název vozidla na úvodní obrazovce,
-3. text v horní liště,
-4. kapacitu nádrže a další parametry vozidla,
-5. aktuální stav tachometru, pokud chce používat navazující evidenci kilometrů,
-6. volitelně vlastní kontaktní údaje v INFO obrazovce.
+Projekt je připraven pro **Arduino-ESP32 3.3.x**.
 
-Výchozí texty jsou záměrně:
+### 2. Knihovny
+
+V Library Manageru nainstalujte:
+
+- `TFT_eSPI` – Bodmer
+- `TFT_eWidget` – Bodmer
+- `PNGdec` – Larry Bank / BitBank
+- `XPT2046_Touchscreen` – Paul Stoffregen
+
+### 3. Projekt
+
+Hlavní soubory:
+
+```text
+Octavia_II_PC_v16_31_MULTI_ECU_PUBLIC/
+├── Octavia_II_PC_v16_31_MULTI_ECU_PUBLIC.ino
+├── MenuIcons.h
+├── StartupLogo.h
+├── User_Setup.h
+└── README.md
+```
+
+Název složky musí odpovídat názvu hlavního `.ino` souboru.
+
+### 4. TFT_eSPI
+
+Soubor `User_Setup.h` z projektu použijte jako aktivní konfiguraci knihovny `TFT_eSPI`. Původní soubor si předem zazálohujte.
+
+### 5. Deska
+
+Použijte odpovídající CYD profil nebo například:
+
+```text
+Board:            ESP32 Dev Module
+Flash Size:       4 MB
+Partition Scheme: Huge APP (3MB No OTA / 1MB SPIFFS)
+Serial Monitor:   115200 baud
+```
+
+Poté proveďte **Verify** a **Upload**.
+
+---
+
+## První spuštění
+
+PUBLIC verze neobsahuje žádnou cizí MAC adresu ELM327 ani osobní údaje.
+
+1. Otevřete Bluetooth scan a vyberte svůj **Bluetooth Classic ELM327**.
+2. Uložte jej jako výchozí zařízení.
+3. Profil motoru ponechte nejprve na **AUTO**.
+4. Po připojení otevřete **NASTAVENÍ → PROFIL VOZIDLA** nebo servisní web a zkontrolujte detekovaný profil a ECU.
+5. Nastavte název vozidla, kapacitu nádrže a případně stav tachometru.
+
+Výchozí texty personalizace jsou záměrně:
 
 ```text
 NASTAVTE NAZEV VOZIDLA
@@ -89,322 +146,74 @@ VOZIDLO NENASTAVENO
 
 ---
 
-# Instalace od začátku
+## Jak funguje MULTI-ECU režim
 
-## 1. Nainstalujte Arduino IDE
+Po připojení ELM327 firmware:
 
-Použijte **Arduino IDE 2.x**.
+1. nejprve zkusí **ISO 15765-4 CAN 11-bit / 500 kbit/s**,
+2. pokud ECU neodpoví, přepne ELM327 na **automatický výběr OBD protokolu**,
+3. ověří standardní OBD komunikaci,
+4. na podporovaném CANu zkusí read-only UDS identifikaci ECU,
+5. vybere profil motoru,
+6. povolí pouze funkce, pro které má bezpečný zdroj dat.
 
-Oficiální stránka:
-
-https://www.arduino.cc/en/software
-
----
-
-## 2. Přidejte podporu ESP32
-
-V Arduino IDE otevřete:
-
-```text
-File → Preferences
-```
-
-Do **Additional Boards Manager URLs** přidejte:
-
-```text
-https://espressif.github.io/arduino-esp32/package_esp32_index.json
-```
-
-Potom otevřete:
-
-```text
-Tools → Board → Boards Manager
-```
-
-Vyhledejte:
-
-```text
-esp32 by Espressif Systems
-```
-
-Projekt je připraven pro řadu **Arduino-ESP32 3.3.x**.
+U neznámé ECU zůstane aktivní **Generic OBD-II**. To není chyba, ale bezpečný fallback.
 
 ---
 
-## 3. Nainstalujte knihovny
+## DPF
 
-V **Library Manageru** nainstalujte:
+Rozšířené hodnoty jako vypočítané/naměřené saze, stav regenerace a vzdálenost od regenerace jsou silně závislé na konkrétní ECU.
 
-- **TFT_eSPI** – Bodmer
-- **TFT_eWidget** – Bodmer
-- **PNGdec** – Larry Bank / bitbank2
-- **XPT2046_Touchscreen** – Paul Stoffregen
+V16.31 proto:
 
-Ostatní použité ESP32 knihovny jsou součástí ESP32 core.
+- zachovává ověřený profil pro původně testovanou PCR2.1 ECU,
+- na jiné ECU nepouští neověřené proprietární DPF mapování,
+- zkouší standardní OBD DPF diferenciální tlak PID `7A`, pokud jej ECU podporuje,
+- na nepodporovaném profilu zobrazí **N/A / neověřeno**, ne vymyšlenou hodnotu.
 
----
-
-## 4. Rozbalte projekt
-
-Hlavní soubory jsou:
-
-```text
-Octavia_II_PC_v16_30_FIX2_PUBLIC/
-├── Octavia_II_PC_v16_30_FIX2_PUBLIC.ino
-├── MenuIcons.h
-├── StartupLogo.h
-├── User_Setup.h
-└── README.md
-```
-
-### Důležité
-
-Arduino IDE očekává, že **název složky projektu bude stejný jako název hlavního `.ino` souboru**.
-
-Tedy:
-
-```text
-Octavia_II_PC_v16_30_FIX2_PUBLIC/
-└── Octavia_II_PC_v16_30_FIX2_PUBLIC.ino
-```
-
-`MenuIcons.h` a `StartupLogo.h` musí zůstat ve stejné složce jako `.ino`.
+Pokud máte jinou Octavii II a chcete rozšířený DPF profil doplnit, nejcennější je identifikace ECU/ODX a porovnání hodnot s diagnostikou VCDS/ODIS.
 
 ---
 
-## 5. Nastavte TFT_eSPI
-
-Součástí projektu je připravený:
+## Servisní Wi‑Fi
 
 ```text
-User_Setup.h
+SSID:  Octavia-II-PC
+Heslo: OctaviaPC
+Web:   http://192.168.4.1
 ```
 
-Ten je určen pro použitý CYD displej.
-
-Najděte složku knihovny TFT_eSPI, například na Windows:
-
-```text
-Documents\Arduino\libraries\TFT_eSPI\
-```
-
-Původní `User_Setup.h` si doporučuji zazálohovat a následně jej nahraďte souborem dodaným s projektem.
-
-> Po aktualizaci knihovny TFT_eSPI se může její `User_Setup.h` přepsat. Pokud displej po aktualizaci přestane fungovat správně, zkontrolujte nejdříve tento soubor.
+Servisní Wi‑Fi je oddělena od běžné Bluetooth OBD komunikace, aby ESP32 a rádio nebyly zbytečně zatěžovány současně.
 
 ---
 
-## 6. Nastavení desky
+## Personalizace PUBLIC verze
 
-V Arduino IDE použijte odpovídající CYD profil nebo běžný:
+Přes nastavení nebo servisní web lze změnit zejména:
 
-```text
-ESP32 Dev Module
-```
-
-Doporučené základní nastavení:
-
-```text
-Flash Size:       4 MB
-Partition Scheme: Huge APP (3MB No OTA / 1MB SPIFFS)
-Serial Monitor:   115200 baud
-```
-
-Pokud používáte vlastní board definici pro ESP32-2432S028R, zachovejte odpovídající velikost flash a partition scheme.
-
----
-
-## 7. Ověření a nahrání
-
-Připojte ESP32 datovým USB kabelem.
-
-V Arduino IDE vyberte správný **COM port** a nejprve použijte:
-
-```text
-Verify / Ověřit
-```
-
-Pokud kompilace proběhne bez chyby, použijte:
-
-```text
-Upload / Nahrát
-```
-
-Po dokončení se ESP32 restartuje a spustí **Octavia II PC**.
-
----
-
-# První spuštění
-
-Veřejný firmware nemá uloženou cizí MAC adresu ELM327.
-
-Při první konfiguraci proto vyberte **vlastní ELM327** pomocí Bluetooth skeneru na displeji.
-
-Po nalezení adaptéru jej zvolte a uložte jako výchozí zařízení.
-
-Běžné PINy ELM327 bývají:
-
-```text
-1234
-0000
-```
-
-Po úspěšném připojení může firmware uložený adaptér používat při dalších startech automaticky.
-
----
-
-# Servisní Wi‑Fi / WEB
-
-Servisní web slouží pro konfiguraci, historii a další servisní funkce.
-
-Po zapnutí webového režimu vytvoří ESP32 vlastní Wi‑Fi síť:
-
-```text
-SSID:   Octavia-II-PC
-Heslo:  OctaviaPC
-```
-
-Telefon nebo notebook připojte k této síti a otevřete:
-
-```text
-http://192.168.4.1
-```
-
-Telefon může hlásit, že Wi‑Fi **nemá přístup k internetu**. To je správně — jde o lokální síť vytvořenou ESP32.
-
-Bluetooth komunikace s ELM327 a servisní Wi‑Fi jsou záměrně oddělené, aby se co nejméně navzájem rušily.
-
-Po skončení práce webový režim ukončete přímo z displeje nebo webového rozhraní.
-
----
-
-# Nastavení vozidla
-
-V servisním webu doporučuji po prvním spuštění projít zejména:
-
-```text
-NASTAVENÍ → TEXTY
-```
-
-Zde si nastavíte vlastní název vozidla a údaje zobrazované na displeji.
-
-Dále zkontrolujte:
-
-- kapacitu palivové nádrže,
-- výchozí / záložní hodnoty spotřeby,
+- úvodní text,
+- horní název vozidla,
+- profil motoru/ECU,
+- kapacitu nádrže,
 - stav tachometru,
-- limit detekce tankování,
-- servisní hodnoty a alarmy.
+- volitelné kontaktní údaje vlastníka/správce.
 
 ---
 
-# DPF
+## Bezpečnost a omezení
 
-DPF část používá kromě standardního OBD také konkrétní VAG/UDS data.
-
-Aktuální implementace je primárně laděna pro:
-
-```text
-Škoda Octavia II facelift
-1.6 TDI CAYC
-ECU PCR2.1
-```
-
-Na jiné ECU mohou některé DPF hodnoty zobrazovat `--` nebo nemusí být dostupné vůbec.
-
-Firmware raději zobrazí nedostupnou hodnotu než údaj, který nebyl potvrzen z řídicí jednotky.
+- ESP32 **nepřipojujte přímo na 12–14,8 V** vozidla.
+- Displej neovládejte během řízení způsobem, který odvádí pozornost.
+- ELM327 klony se liší kvalitou a podporou příkazů.
+- Dostupnost PIDů se může lišit i mezi dvěma vozy se stejným objemem motoru.
+- `N/A` nebo `--` znamená, že firmware hodnotu nemá potvrzenou.
+- Před použitím aktivních funkcí SPECIALS musí být vozidlo bezpečně odstavené.
 
 ---
 
-# Aktualizace firmware
+## Licence a značka
 
-Pokud už zařízení používáte a máte uloženou historii jízd, tankování nebo vlastní nastavení:
+**Octavia II PC** je neoficiální komunitní projekt. Není produktem ani oficiálním softwarem společnosti Škoda Auto a.s.
 
-**nepoužívejte bez důvodu Erase All Flash.**
-
-Při běžném nahrání nové verze se uložená data obvykle zachovají, pokud nezměníte partition layout nebo ručně nesmažete flash.
-
-Před větší aktualizací je vhodné důležitá data exportovat přes servisní web.
-
----
-
-# Nejčastější problémy
-
-### Displej je bílý, černý nebo zobrazuje nesmysly
-
-Zkontrolujte správný `User_Setup.h` v knihovně TFT_eSPI.
-
-### Dotyk nereaguje správně
-
-Ověřte použitou variantu ESP32-2432S028R a nastavení pinů v dodaném `User_Setup.h`.
-
-### Upload se zasekne na `Connecting...`
-
-Vyzkoušejte:
-
-- jiný datový USB kabel,
-- jiný USB port,
-- správný COM port,
-- nižší Upload Speed,
-- případně tlačítko BOOT při začátku uploadu.
-
-### ELM327 se nepřipojí
-
-Zkontrolujte:
-
-- že jde o **Bluetooth Classic ELM327**,
-- zapnuté zapalování,
-- napájení OBD zásuvky,
-- zda ELM není současně připojen k jinému telefonu nebo aplikaci,
-- případně zkuste jiný ELM327 adaptér.
-
-### WEB nejde otevřít
-
-Zkontrolujte, že:
-
-1. je servisní WEB skutečně zapnutý na displeji,
-2. telefon je připojen k `Octavia-II-PC`,
-3. otevíráte `http://192.168.4.1`,
-4. telefon automaticky nepřepnul zpět na mobilní data nebo jinou Wi‑Fi.
-
----
-
-# Struktura repozitáře
-
-Kromě samotného firmware repozitář obsahuje také grafické náhledy jednotlivých obrazovek a poznámky ke změnám jednotlivých verzí.
-
-```text
-Octavia_II_PC_v16_30_FIX2_PUBLIC.ino   hlavní firmware
-MenuIcons.h                            ikony menu
-StartupLogo.h                          grafika úvodní obrazovky
-User_Setup.h                           konfigurace TFT_eSPI
-README_SETUP.txt                       stručné instalační poznámky
-V*_CHANGES.txt                         historie změn
-*.png                                  náhledy obrazovek a grafiky
-```
-
----
-
-# Bezpečnost
-
-ESP32 **nikdy nepřipojujte přímo na 12–14,8 V palubní sítě vozidla**. Použijte vhodný stabilizovaný napájecí zdroj / DC-DC měnič odpovídající požadavkům desky.
-
-Displej je doplňkové zařízení. Za jízdy jej neovládejte způsobem, který odvádí pozornost od řízení.
-
-Hodnoty zobrazované firmwarem nejsou náhradou profesionální automobilové diagnostiky.
-
----
-
-# Ochranná známka a odpovědnost
-
-**Octavia II PC je neoficiální komunitní projekt. Není produktem ani oficiálním softwarem Škoda Auto a není se Škoda Auto spojen.**
-
-Názvy vozidel a ochranné známky patří jejich příslušným vlastníkům.
-
-Použití firmware a případné zásahy do vozidla jsou na vlastní odpovědnost uživatele.
-
----
-
-## Octavia II PC
-
-ESP32-2432S028R • ELM327 Bluetooth Classic • Škoda Octavia II 1Z • CAYC / PCR2.1
+Použití je na vlastní odpovědnost.
