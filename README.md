@@ -8,7 +8,7 @@ Komunikuje přes **Bluetooth Classic ELM327**, zobrazuje dostupná data motoru, 
 
 **Aktuální veřejná verze:** `V16.31 MULTI-ECU`
 
-Veškeré podrobně popsané funkce zde: [Funkce.md](Funkce.md).
+<b>Veškeré podrobně popsané funkce zde:</b> [Funkce.md](Funkce.md).
 
 <table>
   <tr>
