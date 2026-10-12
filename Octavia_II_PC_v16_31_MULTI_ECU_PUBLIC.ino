@@ -1,36 +1,3 @@
-/*
-  Octavia II PC
-  ESP32-2432S028R / CYD 2.8" 320x240
-  Arduino-ESP32 3.3.x
-  V16.31 MULTI-ECU: viceprofilova podpora Octavia II + bezpecny Generic OBD fallback
-
-  Hotove moduly v tomto sketchi:
-    - nova bitmapova start animace SKODA / Octavia II PC
-    - tri stranky grafickeho menu; po uspesnem ELM connectu se zobrazi PREHLED
-    - upozorneni
-    - Bluetooth scanner + vyber zarizeni
-    - defaultni ELM327
-    - motorova obrazovka + Turbo Gauge + elektrika/alternator + DTC
-    - viceprofilova vrstva motoru/ECU + automaticka identifikace, pokud ji ECU poskytne
-    - overeny VAG DPF monitoring CAYC/PCR2.1 (208B/208C/208D/20D8/207D)
-    - 2.0 TDI CR / EDC17 a starsi TDI PD pouzivaji bezpecny standardni OBD profil;
-      neoverene proprietarni DPF DIDy se nikdy nevymysleji
-    - Kniha jizd + automaticka historie tankovani
-    - LittleFS logy
-    - Wi-Fi AP + radio-setrne servisni Web UI
-    - Power Manager (soft + priprava na ignition input) + servisni pocitadla + alarmy
-
-  KNIHOVNY NAVIC:
-    - TFT_eWidget by Bodmer (Arduino Library Manager)
-    - PNGdec by Larry Bank / BitBank (Arduino Library Manager)
-
-  DULEZITE:
-    Firmware nejprve zkusi rychly VAG CAN profil (ISO 15765-4 CAN 11-bit / 500 kbit/s)
-    a pokud motor neodpovi, prepne ELM327 na automaticky vyber OBD protokolu.
-    U CAN/UDS jednotek cte pouze identifikacni DIDy F190/F187/F189/F19E a podle
-    nich zvoli profil. Proprietarni DPF hodnoty jsou povoleny jen pro profil,
-    pro ktery je zname a overene mapovani. V ostatnich profilech zustavaji skryte/NA.
-*/
 
 #include <Arduino.h>
 #include <SPI.h>
@@ -280,26 +247,6 @@ struct VehicleCapabilities {
   bool standardDpfPressure = true; // SAE PID 7A se muze zkusit, pokud jej ECU podporuje
   bool j519Specials = false;
 };
-
-static const char *engineProfileLabel(EngineProfile p) {
-  switch (p) {
-    case ENGINE_PROFILE_AUTO: return "AUTO";
-    case ENGINE_PROFILE_CAYC_PCR21: return "1.6 TDI / PCR2.1";
-    case ENGINE_PROFILE_20TDI_CR_EDC17: return "2.0 TDI CR / EDC17";
-    case ENGINE_PROFILE_TDI_PD_EDC16: return "TDI PD / EDC16";
-    default: return "GENERIC OBD";
-  }
-}
-
-static const char *engineProfileShortLabel(EngineProfile p) {
-  switch (p) {
-    case ENGINE_PROFILE_AUTO: return "AUTO";
-    case ENGINE_PROFILE_CAYC_PCR21: return "1.6 PCR2.1";
-    case ENGINE_PROFILE_20TDI_CR_EDC17: return "2.0 CR";
-    case ENGINE_PROFILE_TDI_PD_EDC16: return "TDI PD";
-    default: return "GENERIC";
-  }
-}
 
 
 // SPECIALS je vykonavano v OBD tasku, aby se ELM nikdy neprekryl s beznym pollingem.
@@ -555,6 +502,30 @@ static const DiagModuleSpec DIAG_MODULES[] = {
 };
 static const int DIAG_MODULE_COUNT = sizeof(DIAG_MODULES) / sizeof(DIAG_MODULES[0]);
 
+// Tyto helper funkce jsou zamerne az ZA vsemi uzivatelskymi enum/struct typy.
+// Arduino preprocessor vklada automaticke prototypy pred prvni definici funkce;
+// pokud by zde byly funkce drive, prototypy funkci pouzivajicich TripRecord,
+// DtcState, DiagModuleState apod. by vznikly pred deklaraci techto typu.
+static const char *engineProfileLabel(EngineProfile p) {
+  switch (p) {
+    case ENGINE_PROFILE_AUTO: return "AUTO";
+    case ENGINE_PROFILE_CAYC_PCR21: return "1.6 TDI / PCR2.1";
+    case ENGINE_PROFILE_20TDI_CR_EDC17: return "2.0 TDI CR / EDC17";
+    case ENGINE_PROFILE_TDI_PD_EDC16: return "TDI PD / EDC16";
+    default: return "GENERIC OBD";
+  }
+}
+
+static const char *engineProfileShortLabel(EngineProfile p) {
+  switch (p) {
+    case ENGINE_PROFILE_AUTO: return "AUTO";
+    case ENGINE_PROFILE_CAYC_PCR21: return "1.6 PCR2.1";
+    case ENGINE_PROFILE_20TDI_CR_EDC17: return "2.0 CR";
+    case ENGINE_PROFILE_TDI_PD_EDC16: return "TDI PD";
+    default: return "GENERIC";
+  }
+}
+
 // =========================== GLOBAL ===========================
 
 VehicleData car;
@@ -622,7 +593,7 @@ String developerPhone = "";
 String developerWeb = "";
 String splashTitle = DEFAULT_SPLASH_TITLE;
 String mainHeaderTitle = DEFAULT_HEADER_TITLE;
-static const char *FW_VERSION = "16.31.0 MULTI-ECU";
+static const char *FW_VERSION = "16.31.1 MULTI-ECU";
 
 // Hodiny z pristrojoveho stitu (J285 / adresa 17). Cteni je read-only.
 // U PQ35/A5 je fyzicka UDS adresa pristroju typicky TX 0x714 / RX 0x77E.
